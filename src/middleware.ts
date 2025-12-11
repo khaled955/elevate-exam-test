@@ -3,7 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
   // this is jwt token as it need request as aparameter
-  const token = await getToken({ req: request });
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+    secureCookie: process.env.NODE_ENV === "production",
+  });
   const { pathname } = request.nextUrl;
 
   const publicPaths = ["/login-form", "/register-form", "/forget-password"];
