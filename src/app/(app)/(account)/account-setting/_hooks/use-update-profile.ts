@@ -1,8 +1,8 @@
-import { UpdateProfileFormValues } from "@/lib/schemes/update-profile-schema";
 import { UpdateInfoResponse } from "@/lib/types/update-profile";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { updateProfileAction } from "../_action/update-profile.action";
+import { UpdateProfileFormValues } from "@/lib/schemes/update-profile.schema";
 
 export function useUpdateProfile() {
   // TanStackQuery=>Mutation
