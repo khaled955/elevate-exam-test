@@ -20,7 +20,6 @@ import {
   UpdateProfileFormValues,
   updateProfileSchema,
 } from "@/lib/schemes/update-profile.schema";
-import { toE164EG } from "@/lib/utils/convert-phone-in-update";
 
 export default function UpdateForm() {
   // =============================================================================================================
@@ -49,34 +48,26 @@ export default function UpdateForm() {
   const {
     error: updateError,
     isPending: updatePending,
-    mutateAsync: onUpdateProfile,
+    mutate: onUpdateProfile,
   } = useUpdateProfile();
   // =========================================================================================================
 
   // ===========================================================================================================
   //??==> Handlers
-  const onUpdate: SubmitHandler<UpdateProfileFormValues> = async (data) => {
+  const handleUpdateProfile: SubmitHandler<UpdateProfileFormValues> = (
+    data
+  ) => {
     // Check If User No Change Any Data
     if (!isDirty) {
       toast("No Data Changed");
       return;
     }
 
-    await onUpdateProfile(data, {
+    onUpdateProfile(data, {
       onSuccess: async (data) => {
         if (!data) return;
         toast.success(data.message);
 
-        //  Update Data In Ui
-        reset({
-          email: data.user.email ?? "",
-          firstName: data.user.firstName ?? "",
-          lastName: data.user.lastName ?? "",
-          username: data.user.username ?? "",
-          phone: toE164EG(data.user.phone) ?? "",
-        });
-
-        //Update Data In Session
         await update({
           user: {
             ...(currentUser ?? {}),
@@ -84,7 +75,7 @@ export default function UpdateForm() {
             firstName: data.user.firstName,
             lastName: data.user.lastName,
             username: data.user.username,
-            phone: data.user.phone,
+            phone: `+20${data.user.phone}`,
           },
         });
       },
@@ -114,7 +105,7 @@ export default function UpdateForm() {
       firstName: currentUser.firstName ?? "",
       lastName: currentUser.lastName ?? "",
       username: currentUser.username ?? "",
-      phone: toE164EG(currentUser.phone),
+      phone: currentUser.phone ?? "",
     });
   }, [currentUser, reset]);
 
@@ -125,7 +116,10 @@ export default function UpdateForm() {
         <Spinner />
       ) : (
         <div className="update-form p-4 bg-white">
-          <form onSubmit={handleSubmit(onUpdate)} className=" font-geist">
+          <form
+            onSubmit={handleSubmit(handleUpdateProfile)}
+            className=" font-geist"
+          >
             <FieldGroup>
               <FieldGroup>
                 {/*  first and last name inputs */}

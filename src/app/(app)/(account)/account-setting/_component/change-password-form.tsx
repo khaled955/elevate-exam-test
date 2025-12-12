@@ -38,15 +38,17 @@ export default function ChangePasswordForm() {
   //??====> Hooks===========> Mutate
 
   const {
-    mutateAsync: onChangePassword,
+    mutate: onChangePassword,
     isPending,
     error: errorAfterSubmit,
   } = useChangePassword();
 
   // ===============================================================================================================
   //**===> Handlers
-  const onChange: SubmitHandler<changePasswordFormValues> = async (data) => {
-    await onChangePassword(data);
+  const handleChangePassword: SubmitHandler<changePasswordFormValues> = (
+    data
+  ) => {
+    onChangePassword(data);
   };
 
   // =============================================================================================================
@@ -58,7 +60,7 @@ export default function ChangePasswordForm() {
   return (
     <div className="change-password-form p-4 bg-white">
       <form
-        onSubmit={handleSubmit(onChange)}
+        onSubmit={handleSubmit(handleChangePassword)}
         className="register-form font-geist"
       >
         <FieldGroup>

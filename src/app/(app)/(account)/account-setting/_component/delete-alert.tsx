@@ -12,13 +12,12 @@ type DeleteAlertProps = {
 export default function DeleteAlert({ onClose }: DeleteAlertProps) {
   // ============================================================================================================
   //*===>Hooks ================> Mutate(Delete)
-  const { mutateAsync: onDelete, isPending, error } = useDeleteProfile();
+  const { mutate: onDelete, isPending, error } = useDeleteProfile();
 
   // ============================================================================================================
   // ??==> Handlers
-  const onDeleteProfile = async () => {
-    await onDelete();
-    onClose();
+  const handleDeleteProfile =  () => {
+     onDelete();
   };
 
   // ================================================================================================================
@@ -62,7 +61,7 @@ export default function DeleteAlert({ onClose }: DeleteAlertProps) {
           {/* //!!==> Delete Btn */}
           <Button
             disabled={isPending}
-            onClick={onDeleteProfile}
+            onClick={handleDeleteProfile}
             className="grow"
             variant="destructive"
           >

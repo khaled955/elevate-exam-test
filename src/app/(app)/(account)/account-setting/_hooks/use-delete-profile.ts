@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { signOut } from "next-auth/react";
 
 export function useDeleteProfile() {
-  const { mutateAsync, isPending, error } = useMutation<
+  const { mutate, isPending, error } = useMutation<
     DeleteProfileResponse,
     Error
   >({
@@ -26,5 +26,5 @@ export function useDeleteProfile() {
     },
   });
 
-  return { mutateAsync, isPending, error };
+  return { mutate, isPending, error };
 }

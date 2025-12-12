@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 export function useChangePassword(){
 
-    const {mutateAsync,isPending,error} = useMutation<ChangePasswordResponse,Error,changePasswordFormValues>({
+    const {mutate,isPending,error} = useMutation<ChangePasswordResponse,Error,changePasswordFormValues>({
         mutationFn:async(values)=>{
              toast("Waiting....")
           const resp = await changePasswordAction(values)
@@ -25,6 +25,6 @@ export function useChangePassword(){
     })
 
 
-    return {mutateAsync,isPending,error}
+    return {mutate,isPending,error}
 
 }

@@ -5,11 +5,12 @@ export const changePassworSchema = z
     oldPassword: z.string().nonempty("Old Password Is Required"),
     password: z
       .string()
+      .nonempty("Password Is Required")
       .regex(
         PASSWORD_PATTERN,
         "Password must have at least 8 characters, including uppercase, lowercase, number, and special symbol."
       ),
-    rePassword: z.string(),
+    rePassword: z.string().nonempty("Confirmed Password Is Required"),
   })
   .refine((values) => values.password === values.rePassword, {
     message: "New Password And Confirmed Password Not Identical",

@@ -23,7 +23,6 @@ export default function AccountSettingPage() {
 
   const onLogOut = async () => {
     await signOut();
-    location.href = "/login-form";
   };
 
   // =========================================================================================================

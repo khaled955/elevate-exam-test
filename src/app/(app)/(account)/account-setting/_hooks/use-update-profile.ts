@@ -6,7 +6,7 @@ import { UpdateProfileFormValues } from "@/lib/schemes/update-profile.schema";
 
 export function useUpdateProfile() {
   // TanStackQuery=>Mutation
-  const { error, isPending, mutateAsync } = useMutation<
+  const { error, isPending, mutate } = useMutation<
     UpdateInfoResponse | undefined,
     Error,
     UpdateProfileFormValues
@@ -19,5 +19,5 @@ export function useUpdateProfile() {
     },
   });
 
-  return { error, isPending, mutateAsync };
+  return { error, isPending, mutate };
 }
