@@ -1,15 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
-import { CreateNewPasswordAction } from "../_actions/create-new-password";
 import {
   CreateNewPasswordPayload,
   CreateNewPasswordResponse,
 } from "@/lib/types/authentication";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { CreateNewPasswordService } from "../_services/create-new-password.service";
 
 // ============================================================================================================
 // &==> Variables
 const SUCCESS_MSG = "Reset Your Password Successfully👌";
+const CREATE_NEW_PASSWORD_ERROR = `Error During Send New Password To Server!`;
 // =============================================================================================================
 
 export function useCreateNewPassword(handleSetCurrentEmail: () => void) {
@@ -19,21 +20,27 @@ export function useCreateNewPassword(handleSetCurrentEmail: () => void) {
   // =================================================================================================================
   //*==> Hooks
   const {
-    mutateAsync: onCreateNewPassword,
+    mutate: onCreateNewPassword,
     error,
     isPending,
   } = useMutation<CreateNewPasswordResponse, Error, CreateNewPasswordPayload>({
-    mutationFn: (formValues) => CreateNewPasswordAction(formValues),
-    onSuccess: (data) => {
-      toast.success(data.message ||SUCCESS_MSG );
+    mutationFn: async (formValues) => {
+      const payload = await CreateNewPasswordService(formValues);
 
+      // !!=>Catch Error
+      if ("code" in payload) {
+        throw new Error(payload?.message || CREATE_NEW_PASSWORD_ERROR);
+      }
+
+      return payload;
+    },
+    onSuccess: (data) => {
+      toast.success(data.message || SUCCESS_MSG);
+      //&Navigation To Login
+      router.push("/login-form");
+      
       //^Reset Current Email
       handleSetCurrentEmail();
-
-      //&Navigation To Login
-      setTimeout(() => {
-        router.push("/login-form");
-      }, 300);
     },
   });
 

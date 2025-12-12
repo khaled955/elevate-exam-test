@@ -25,12 +25,13 @@ const defaultValues: LoginFormValues = {
   email: "",
   password: "",
 };
+
 // ===============================================================================================================
 
 export default function LoginPage() {
   // ============================================================================================================
   //*==> Hooks===============> Mutate(Login)
-  const { mutateAsync: onLogin, error, isPending } = useLogin();
+  const { mutate: onLogin, error, isPending } = useLogin();
   // ==============================================================================================================
   //*===>React Hook Form (RHF)
   const {
@@ -44,10 +45,9 @@ export default function LoginPage() {
   });
   // ==============================================================================================================
   //?==> Handlers
-  const handleLogin: SubmitHandler<LoginFormValues> = async (data) => {
-    await onLogin(data);
+  const handleLogin: SubmitHandler<LoginFormValues> = (data) => {
+    onLogin(data);
   };
-
   /*//^ ================================
                                    Autj => Login Jsx
                                 ================================ //*/

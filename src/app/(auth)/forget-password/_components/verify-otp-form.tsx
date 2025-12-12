@@ -10,14 +10,16 @@ import { useEffect, useState } from "react";
 type VerifyOtpProps = {
   onSuccess: () => void;
   currentEmail: string;
-  onClick: () => void;
+  onBack:()=>void;
+  onEdit:()=>void;
 };
 // ==========================================================================================================
 
 export default function VerifyOtpForm({
   currentEmail,
   onSuccess,
-  onClick,
+  onBack,
+  onEdit,
 }: VerifyOtpProps) {
   // =============================================================================================================
   //*==>States
@@ -44,7 +46,7 @@ export default function VerifyOtpForm({
           <div>
             {/*//*==>Back Btn */}
             <button
-              onClick={onClick}
+              onClick={onBack}
               className="border border-gray-200 p-2 mb-6"
             >
               <MoveLeft />
@@ -61,7 +63,7 @@ export default function VerifyOtpForm({
               <span className="text-gray-800">
                 {currentEmail}
                 {/*//*==>Edit Btn */}
-                <button className="text-blue-600" onClick={onClick}>
+                <button className="text-blue-600" onClick={onEdit}>
                   Edit
                 </button>
               </span>

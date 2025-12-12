@@ -20,21 +20,20 @@ import { forgetPasswordSchema } from "@/lib/schemes/forget-password.schema";
 
 // ================================================================================================================
 //&==>Variables
-const defaultValues = {
-  email: "",
-};
 const SUCCESS_MSG = `"Email Sent Successfully 👌"`;
 // ================================================================================================================
 //^==>Types
 type ForgetPasswordProps = {
   setEmail: (value: string) => void;
   onSuccess: () => void;
+  currentEmail:string;
 };
 // ================================================================================================================
 
-export default function ForgetPasswordForm({
+export default function EmailForm({
   setEmail,
   onSuccess,
+  currentEmail
 }: ForgetPasswordProps) {
   // ====================================================================================================
   //*==>Hooks=============> Mutate(ForgetPassword)
@@ -49,18 +48,20 @@ export default function ForgetPasswordForm({
   } = useForm<ForgetFormValues>({
     mode: "onBlur",
     resolver: zodResolver(forgetPasswordSchema),
-    defaultValues,
+    defaultValues:{
+    email: currentEmail? currentEmail: "",
+    }
   });
   // ===============================================================================================================
   //?==>Handlers
-  const handleSendEmail: SubmitHandler<ForgetFormValues> = async (
+  const handleForgetEmail: SubmitHandler<ForgetFormValues> = async (
     formValues
   ) => {
-    await onForget(formValues, {
+    onForget(formValues, {
       onSuccess: (data) => {
+        toast.success(data.message || SUCCESS_MSG);
         //*==>Set Email
         setEmail(formValues.email);
-        toast.success(data.message || SUCCESS_MSG);
         //*==>Show Otp Form
         onSuccess();
       },
@@ -69,7 +70,7 @@ export default function ForgetPasswordForm({
 
   return (
     <div className="forget-password-form w-full">
-      <form className=" font-geist" onSubmit={handleSubmit(handleSendEmail)}>
+      <form className=" font-geist" onSubmit={handleSubmit(handleForgetEmail)}>
         <FieldGroup>
           <div>
             <FieldLegend variant="legend" className="font-inter font-bold mb-9">

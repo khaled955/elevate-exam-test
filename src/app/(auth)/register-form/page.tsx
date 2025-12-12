@@ -41,6 +41,8 @@ export default function RegisterPage() {
   const {
     register,
     control,
+    getValues,
+    setError,
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<RegisterFormValues>({
@@ -50,10 +52,30 @@ export default function RegisterPage() {
   });
   // ===========================================================================================================
   //??==>Handlers
-  const handleRegister: SubmitHandler<RegisterFormValues> = async (data) => {
-    await onRegister(data);
-  };
+  const handleRegister: SubmitHandler<RegisterFormValues> = (data) => {
+    onRegister(data, {
+      onError: (error) => {
+        // Array of keys for form
+        const formField = Object.keys(getValues());
+        // current Error
+        const currentFieldError = formField.find((field) =>
+          error.message.startsWith(field)
+        );
+        if (currentFieldError) {
+          setError(
+            currentFieldError as keyof RegisterFormValues,
+            {
+              type: "custom",
+              message: error.message,
+            },
+            { shouldFocus: true }
+          );
 
+          error.message = "";
+        }
+      },
+    });
+  };
   /*//^ ================================
                                    Auth => Register Jsx
                                 ================================ //*/
@@ -113,7 +135,7 @@ export default function RegisterPage() {
                 type="text"
               />
               {/*//!==>  Feedback */}
-              {errors.lastName && (
+              {errors.username && (
                 <TypingAuthError errorMsg={errors.username?.message} />
               )}
             </Field>
@@ -196,7 +218,7 @@ export default function RegisterPage() {
           </div>
 
           {/*//!==>Errorn After Submit*/}
-          {error && <SubmitionError Msg={error?.message} />}
+          {error?.message && <SubmitionError Msg={error?.message} />}
 
           {/*//?==>Submit Btn */}
           <Field>

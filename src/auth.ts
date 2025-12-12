@@ -1,7 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { LoginResponse } from "./lib/types/authentication";
-import { LOGIN_PATH } from "./lib/services/auth-api/auth.api";
+import { loginService } from "./app/(auth)/login-form/login-service";
 
 export const authOptions: NextAuthOptions = {
   // your configs
@@ -25,17 +24,10 @@ export const authOptions: NextAuthOptions = {
         password: {},
       },
        authorize: async (credentials) =>{
-        const res = await fetch(`${process.env.BASE_URL}${LOGIN_PATH}`,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        const payload: ApiResponse<LoginResponse> = await res.json();
+        const payload = await loginService({
+          email:credentials?.email,
+          password:credentials?.password,
+        })
 
         //  user data could not be retrieved return error by check property in error response
         if ("code" in payload) throw new Error(payload.message);

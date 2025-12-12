@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import ForgetPasswordForm from "./_components/ForgetPasswordForm";
-import VerifyOtpForm from "./_components/VerifyOtpForm";
-import CreateNewPasswordForm from "./_components/CreateNewPasswordForm";
+import VerifyOtpForm from "./_components/verify-otp-form";
+import EmailForm from "./_components/email-form";
+import CreateNewPasswordForm from "./_components/create-new-password-form";
 
 export default function ForgetPasswordPage() {
   // ==============================================================================================================
@@ -25,16 +25,18 @@ export default function ForgetPasswordPage() {
   function handleSetCurrentEmail() {
     setCurrentEmail(null);
   }
+
   // ===============================================================================================================
 
   /*//^ ================================
-                                   Auth => Forget Password Jsx
+                                   Auth => Forget Password Page Jsx
                                 ================================ //*/
   return (
     <div>
       {/* //*==> Email Form */}
       {showEmailForm && (
-        <ForgetPasswordForm
+        <EmailForm
+          currentEmail={currentEmail!}
           setEmail={setCurrentEmail}
           onSuccess={() => {
             setShowEmailForm(false);
@@ -50,7 +52,12 @@ export default function ForgetPasswordPage() {
             setShowNewPasswordForm(true);
           }}
           currentEmail={currentEmail!}
-          onClick={() => {
+          onBack={() => {
+            handleSetCurrentEmail();
+            handleHideVerifyOtpForm();
+            handleShowEmailForm();
+          }}
+          onEdit={() => {
             handleHideVerifyOtpForm();
             handleShowEmailForm();
           }}

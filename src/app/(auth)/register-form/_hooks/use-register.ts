@@ -5,12 +5,12 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { registerAction } from "../_actions/register-form.action";
+import { registerService } from "../_services/register.service";
 
 // ==============================================================================================================
 // &==> Variables
 const SUCCESS_MSG = "Success Register 👌";
-
+const ERROR_MSG = `Error During Register Email`
 // ==============================================================================================================
 export function useRegister() {
   // ============================================================================================================
@@ -20,16 +20,25 @@ export function useRegister() {
   // ===========================================================================================================
   // *===> Hooks
   const {
-    mutateAsync: onRegister,
+    mutate: onRegister,
     isPending,
     error,
   } = useMutation<RegisterResponse, Error, RegisterFormValues>({
-    mutationFn: async (formValues) => await registerAction(formValues),
+    mutationFn: async (formValues) => {
+      const payload = await registerService(formValues);
+
+      // !!==> Catch Error
+      if ("code" in payload) {
+        throw new Error(payload.message || ERROR_MSG);
+      }
+
+      return payload;
+    },
     onSuccess: (data) => {
       toast.success(data.message || SUCCESS_MSG);
       setTimeout(() => {
         router.push("/login-form");
-      }, 600);
+      }, 300);
     },
   });
 

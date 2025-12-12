@@ -5,9 +5,11 @@ import { signIn } from "next-auth/react";
 // ==============================================================================================================
 //&==>Variables
 const LOGIN_ERROR = `Error During Login`;
+const PATTERN_ERROR_END = `.{8,}$/`;
+
 // ==============================================================================================================
 export function useLogin() {
-  const { mutateAsync, error, isPending } = useMutation({
+  const { mutate, error, isPending } = useMutation({
     mutationFn: async (loginValues: LoginFormValues) => {
       const resp = await signIn("credentials", {
         email: loginValues.email,
@@ -27,7 +29,12 @@ export function useLogin() {
         new URLSearchParams(location.search).get("callbackUrl") || "/";
       window.location.href = callbackUrl;
     },
+    onError: (error) => {
+      // ^^=> Handle Pattern Error Msg For Password
+      if (error.message.endsWith(PATTERN_ERROR_END))
+        return (error.message = `incorrect email or password`);
+    },
   });
 
-  return { mutateAsync, error, isPending };
+  return { mutate, error, isPending };
 }

@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -67,10 +66,8 @@ export function InputOTPForm({
   } = form;
   // =============================================================================================================
   //??==>Handlers
-  const handleVerifyOtp: SubmitHandler<VerifyOtpFormValues> = async (
-    formValues
-  ) => {
-    await onVerifyOtp(formValues, {
+  const handleVerifyOtp: SubmitHandler<VerifyOtpFormValues> = (formValues) => {
+    onVerifyOtp(formValues, {
       onSuccess: (data) => {
         toast.success(data.message || "Successfully");
         //*==>Show New Password Form
@@ -80,9 +77,9 @@ export function InputOTPForm({
   };
 
   // &==> Resend Otp
-  async function handleResendOtp() {
+  function handleResendOtp() {
     if (!currentEmail) return;
-    await onForget(
+    onForget(
       { email: currentEmail },
       {
         onSuccess: (data) => {

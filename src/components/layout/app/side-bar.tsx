@@ -35,19 +35,9 @@ const routes: RouteProperity[] = [
 ];
 // ===========================================================================================================
 // ! Handlers
-/**
- * Logs the current user out of the application.
- *
- * This function triggers NextAuth's `signOut()` to clear the authentication session,
- * then redirects the user to the login page (`/login-form`).
- *
- * @function
- * @returns {void} No return value.
- */
 
-function handleLogOut(): void {
+function handleLogOut() {
   signOut();
-  location.href = "/login-form";
 }
 
 // ==========================================================================================================

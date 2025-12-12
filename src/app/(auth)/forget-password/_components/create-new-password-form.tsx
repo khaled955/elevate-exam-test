@@ -17,7 +17,7 @@ import TypingAuthError from "@/components/shared/typing-auth-error";
 import SubmitionError from "@/components/shared/submition-error";
 import { Button } from "@/components/ui/button";
 import { PasswordInput } from "@/components/ui/password-input";
-import { useCreateNewPassword } from "../_hooks/use-create-newPassword";
+import { useCreateNewPassword } from "../_hooks/use-create-new-password";
 import { createNewPasswordSchema } from "@/lib/schemes/forget-password.schema";
 
 // ===============================================================================================================
@@ -57,9 +57,9 @@ export default function CreateNewPasswordForm({
   });
   // ================================================================================================================
   //?==>Handlers
-  const handleCreateNewPassword: SubmitHandler<
-    CreateNewPasswordFormValues
-  > = async (data) => {
+  const handleCreateNewPassword: SubmitHandler<CreateNewPasswordFormValues> = (
+    data
+  ) => {
     //*==>Guard Clause
     if (!currentEmail) return;
 
@@ -68,7 +68,7 @@ export default function CreateNewPasswordForm({
       newPassword: data.newPassword,
     };
 
-    await onCreateNewPassword(payload);
+    onCreateNewPassword(payload);
   };
 
   return (
