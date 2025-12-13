@@ -48,7 +48,7 @@ export default function QuestionsPage({
 
   // ================================================================================================================
   //*===> Hook=================>Mutate
-  const { mutate: submitQuizz } = useSubmit();
+  const { mutate: submitQuizz} = useSubmit();
   //*===> Hook=================>Fetch
   const { error, isLoading, payload } = useQuestions(examId);
 

@@ -41,7 +41,6 @@ export default function ResultsPopUp({
   // ============================================================================================================
   //!!===> Guard Clause
   if (!resultInfo) return <Spinner />;
-
   // ============================================================================================================
 
   /*//^ ================================
@@ -50,7 +49,7 @@ export default function ResultsPopUp({
 
   return (
     <>
-      <div className="absolute mt-3 grid grid-cols-1 md:grid-cols-2 bg-gray-50">
+      <div className="absolute w-full mt-3 grid grid-cols-1 md:grid-cols-2 bg-gray-50">
         {/*//*==>Chart */}
         <div className="char">{children}</div>
         <div className="result-details grow py-3 space-y-3 pb-32 sm:pb-0">

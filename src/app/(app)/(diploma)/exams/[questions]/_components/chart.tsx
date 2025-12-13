@@ -9,6 +9,7 @@ import {
 import { QuizResultResponse } from "@/lib/types/quizz-result";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/shared/spinner";
 
 // ==============================================================================================================
 // &&=> Variables
@@ -66,10 +67,12 @@ export default function MyChart({ resultInfo }: ChartProps) {
   function handleStartNewExam() {
     router.back();
   }
+
   // ===============================================================================================================
 
   return (
-    <div className="space-y-4">
+    <>
+    {!resultInfo ? <Spinner/>:<div className="space-y-4">
       <ChartContainer
         config={chartConfig}
         className="mx-auto aspect-square max-h-[250px]"
@@ -118,10 +121,13 @@ export default function MyChart({ resultInfo }: ChartProps) {
         </div>
         <p className="text-gray-600 ">Score: {resultInfo.total}</p>
         <Button onClick={handleStartNewExam} className=" rounded-md">
-          {" "}
+          
           Start New Exam
         </Button>
       </div>
-    </div>
+    </div>}
+    
+    
+    </>
   );
 }
