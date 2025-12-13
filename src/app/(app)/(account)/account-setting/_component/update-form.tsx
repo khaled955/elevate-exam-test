@@ -5,12 +5,10 @@ import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthUser } from "@/lib/types/authentication";
 import TypingAuthError from "@/components/shared/typing-auth-error";
 import SubmitionError from "@/components/shared/submition-error";
 
 import { Loader } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useUpdateProfile } from "../_hooks/use-update-profile";
@@ -25,10 +23,10 @@ export default function UpdateForm() {
   // =============================================================================================================
   //*==>States
   const [showDeleteDialog, setshowDeleteDialog] = useState(false);
-  const { data: session, status, update } = useSession();
+  // const { data: session, status, update } = useSession();
   // ===============================================================================================================
   //&&==> Variables
-  const currentUser = session?.user as AuthUser | undefined;
+  // const currentUser = session?.user as AuthUser | undefined;
 
   // ==============================================================================================================
   //^==> React Hook Form(RHF)
@@ -49,6 +47,9 @@ export default function UpdateForm() {
     error: updateError,
     isPending: updatePending,
     mutate: onUpdateProfile,
+    status,
+    currentUser,
+  
   } = useUpdateProfile();
   // =========================================================================================================
 
@@ -64,24 +65,24 @@ export default function UpdateForm() {
     }
 
     onUpdateProfile(data, {
-      onSuccess: async (data) => {
-        if (!data) return;
-        toast.success(data.message);
+      // onSuccess: async (data) => {
+      //   if (!data) return;
+      //   toast.success(data.message);
 
-        await update({
-          user: {
-            ...(currentUser ?? {}),
-            email: data.user.email,
-            firstName: data.user.firstName,
-            lastName: data.user.lastName,
-            username: data.user.username,
-            phone: `+20${data.user.phone}`,
-          },
-        });
-      },
-      onError: (error) => {
-        toast.error(error.message || "Failed to Update Data");
-      },
+      //   await update({
+      //     user: {
+      //       ...(currentUser ?? {}),
+      //       email: data.user.email,
+      //       firstName: data.user.firstName,
+      //       lastName: data.user.lastName,
+      //       username: data.user.username,
+      //       phone: `+20${data.user.phone}`,
+      //     },
+      //   });
+      // },
+      // onError: (error) => {
+      //   toast.error(error.message || "Failed to Update Data");
+      // },
     });
   };
 

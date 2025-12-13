@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchDiplomas } from "../_services/fetch-diplomas";
+import { fetchDiplomasService } from "../_services/fetch-diplomas.service";
 
 export function useDiplomas(){
 
@@ -8,7 +8,7 @@ export function useDiplomas(){
       queryKey: ["diplomas"],
       queryFn:({ pageParam })=>{
 
-          return fetchDiplomas(pageParam,3)
+          return fetchDiplomasService(pageParam,3)
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage) => {

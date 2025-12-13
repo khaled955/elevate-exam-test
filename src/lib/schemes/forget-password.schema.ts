@@ -1,32 +1,36 @@
 import { z } from "zod";
 import { PASSWORD_PATTERN } from "../constants/authentication-pattern.constant";
 import { registerSchema } from "./register-form.schema";
+import { CONFIRM_PASSWORD_MESSAGES, PASSWORD_MESSAGES, VERIFY_OTP_MESSAGES } from "../constants/validation.-message.constant";
 
-// create New Password schema
+// ===============================================================================================================
+//^^==>Create New Password schema
 
 export const createNewPasswordSchema = z
   .object({
     newPassword: z
-      .string().nonempty("New Password Required")
+      .string()
+      .nonempty(PASSWORD_MESSAGES.REQUIRED)
       .regex(
-        PASSWORD_PATTERN,
-        "Password must have at least 8 characters, including uppercase, lowercase, number, and special symbol."
+        PASSWORD_PATTERN,PASSWORD_MESSAGES.PATTERN
       ),
-    rePassword: z.string().nonempty("Confirmed New Password Required"),
+    rePassword: z.string().nonempty(CONFIRM_PASSWORD_MESSAGES.REQUIRED),
   })
   .refine((data) => data.rePassword === data.newPassword, {
-    message: "Password And Confirm Password Dont match",
+    message: CONFIRM_PASSWORD_MESSAGES.IDENTICAL,
     path: ["rePassword"],
   });
 
-// Forget Password Schema
+// ==============================================================================================================
+//^^==>Forget Password Schema
 export const forgetPasswordSchema = registerSchema.pick({
-  email:true,
+  email: true,
 });
 
-// verify Otp schema
+// ================================================================================================================
+//^^==>verify Otp schema
 export const VerifyOtpSchema = z.object({
   resetCode: z.string().min(6, {
-    message: "Your one-time password must be 6 characters.",
+    message: VERIFY_OTP_MESSAGES.LENGTH,
   }),
 });

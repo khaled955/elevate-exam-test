@@ -1,12 +1,12 @@
-  export async function fetchDiplomas(pageNumber:number,limit:number) {
+  export async function fetchDiplomasService(pageNumber:number,limit:number) {
 
  const params = new URLSearchParams({
         page: pageNumber.toString(),
         limit: limit.toString()
       });
-    const resp = await fetch(`/api/subjects?${params}`, {
-      cache: "no-store",
-    });
+    const resp = await fetch(`/api/subjects?${params}`
+      
+    );
 
     if (!resp.ok) {
       throw new Error("Error During fetch data from Diploma Page");

@@ -1,3 +1,4 @@
+import { JSON_HEADER } from "@/lib/constants/api.constant";
 import { QUESTIONS } from "@/lib/services/questions-api/questions.api";
 import { QuestionsResponse } from "@/lib/types/questions";
 import { getToken } from "next-auth/jwt";
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
   if (!accessToken) {
     return Response.json({
       message: "No Access Token Available ,Login First",
-      status: 401,
+      code: 401,
     });
   }
 
@@ -30,10 +31,10 @@ export async function GET(request: NextRequest) {
     `${process.env.BASE_URL}${QUESTIONS.GET_QUESTIONS_PER_EXAM(examId)}`,
     {
       headers: {
-        "content-type": "application/json",
+        ...JSON_HEADER,
         token: accessToken,
       },
-      cache: "no-store",
+      
     }
   );
 

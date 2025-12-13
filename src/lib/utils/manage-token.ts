@@ -1,10 +1,12 @@
-
-//  to get token to use in mutation in server actions
+//^^==> to get token to use in mutation in server actions
 
 import { decode, encode, JWT } from "next-auth/jwt";
 import { cookies } from "next/headers";
 
-const cookieName = process.env.NODE_ENV === "production" ? "__Secure-next-auth.session-token" : "next-auth.session-token";
+const cookieName =
+  process.env.NODE_ENV === "production"
+    ? "__Secure-next-auth.session-token"
+    : "next-auth.session-token";
 
 export async function getToken() {
   const tokenCookie = cookies().get(cookieName)?.value;
@@ -23,8 +25,8 @@ export async function getToken() {
   }
 }
 
-
-//  set Token Manually
+// =====================================================================================================================
+//^^==>set Token Manually
 export async function setToken(token: JWT) {
   const encodedToken = await encode({
     token,

@@ -50,7 +50,7 @@ export default function ResultsPopUp({
 
   return (
     <>
-      <div className="absolute w-full mt-3 grid grid-cols-1 sm:grid-cols-2 min-h-screen bg-gray-50">
+      <div className="absolute mt-3 grid grid-cols-1 md:grid-cols-2 bg-gray-50">
         {/*//*==>Chart */}
         <div className="char">{children}</div>
         <div className="result-details grow py-3 space-y-3 pb-32 sm:pb-0">
@@ -76,11 +76,10 @@ export default function ResultsPopUp({
               </div>
             </div>
           ))}
-          <div></div>
         </div>
 
         {/*//??===> Pagination */}
-        <div className="absolute bottom-0 sm:bottom-6 right-3 z-40 left-[50%] -translate-x-[50]">
+        <div className="absolute bottom-0 sm:-bottom-16 right-3 z-40 left-[50%] -translate-x-[50]">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

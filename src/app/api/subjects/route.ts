@@ -1,3 +1,4 @@
+import { JSON_HEADER } from "@/lib/constants/api.constant";
 import { DIPLOMAS } from "@/lib/services/diploma-api/diploma.api";
 import { Subject } from "@/lib/types/diplomas";
 import { getToken } from "next-auth/jwt";
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
   if (!accessToken) {
     return Response.json({
       message: "No Access Token Available ,Login First",
-      status: 401,
+      code: 401,
     });
   }
 
@@ -30,10 +31,10 @@ export async function GET(request: NextRequest) {
     `${process.env.BASE_URL}${DIPLOMAS.GET_ALL_DIPLOMAS(page, limit)}`,
     {
       headers: {
-        "content-type": "application/json",
+      ...JSON_HEADER,
         token: accessToken,
       },
-      cache: "no-store",
+      
     }
   );
 

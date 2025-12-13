@@ -1,3 +1,4 @@
+import { JSON_HEADER } from "@/lib/constants/api.constant";
 import { EXAMS } from "@/lib/services/exams-api/exams.api";
 import { Exam } from "@/lib/types/exam";
 import { getToken } from "next-auth/jwt";
@@ -16,16 +17,15 @@ export async function GET(request: NextRequest) {
   if (!accessToken) {
     return Response.json({
       message: "No Access Token Available ,Login First",
-      status: 401,
+      code: 401,
     });
   }
 
   const res = await fetch(`${process.env.BASE_URL}${EXAMS.GET_ALL_Exams}`, {
     headers: {
-      "content-type": "application/json",
+      ...JSON_HEADER,
       token: accessToken,
     },
-    cache: "no-store",
   });
 
   const ExamsList: ApiResponse<PaginatedData<Exam[]>> = await res.json();

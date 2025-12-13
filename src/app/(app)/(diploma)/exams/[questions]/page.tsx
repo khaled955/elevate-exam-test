@@ -19,7 +19,7 @@ import { useQuestions } from "./_hooks/use-questions";
 import Spinner from "@/components/shared/spinner";
 
 // =============================================================================================================
-// $$ Types
+// ^^==> Types
 type QuestionsPageProps = {
   params: {
     questions: string;
@@ -48,7 +48,7 @@ export default function QuestionsPage({
 
   // ================================================================================================================
   //*===> Hook=================>Mutate
-  const { mutateAsync: submitQuizz } = useSubmit();
+  const { mutate: submitQuizz } = useSubmit();
   //*===> Hook=================>Fetch
   const { error, isLoading, payload } = useQuestions(examId);
 
@@ -85,12 +85,16 @@ export default function QuestionsPage({
   // ==============================================================================================================
   //**===> Handlers
   const handleLogAnswers: SubmitHandler<ExamAnswerFormValues> = useCallback(
-    async (data) => {
-      const response = await submitQuizz(data);
-      setResultInfo(response);
+    (data) => {
+       submitQuizz(data,{
+        onSuccess:(response)=>{
+          setResultInfo(response);
       // !!==> Remove Timer
       localStorage.removeItem("timeLeft");
       setFinishExam(true);
+        }
+       });
+      
     },
     [submitQuizz]
   );
@@ -148,6 +152,9 @@ export default function QuestionsPage({
     return () => clearInterval(timerId);
   }, [questionsList.length, setValue, finishExam]);
 
+
+
+ 
   // ===============================================================================================================
 
   /*//^ ================================
@@ -174,7 +181,7 @@ export default function QuestionsPage({
               <p className="text-end text-gray-500 text-sm font-bold">
                 Question {currentIndex + 1} of {NumberOfQuestions + 1}
               </p>
-              <Progress value={progressSteps} className="" />
+              <Progress value={progressSteps} />
               <></>
 
               {/*//*=> Fields */}

@@ -13,25 +13,17 @@ export async function sendAnswersToServerAction(
   const jwt = await getToken();
   const token = jwt?.accessToken;
 
-  if (!token) {
-    throw new Error("You Must Login First Before Send Answers");
-  }
-
   const resp = await fetch(
     `${process.env.BASE_URL}${QUESTIONS.SEND_TO_CHECK}`,
     {
       headers: {
         ...JSON_HEADER,
-        token,
+        token: token!,
       },
       method: "POST",
       body: JSON.stringify(examAnswers),
     }
   );
-
-  if (!resp.ok) {
-    throw new Error("Error During Submit Quizz");
-  }
 
   const payload = await resp.json();
 

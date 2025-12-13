@@ -1,6 +1,12 @@
 import type { JSX } from "react";
-import { GraduationCap, BookOpenCheckIcon, UserCheck2Icon, CircleQuestionMark } from "lucide-react";
+import {
+  GraduationCap,
+  BookOpenCheckIcon,
+  UserCheck2Icon,
+  CircleQuestionMark,
+} from "lucide-react";
 
+// ********************************************JSDoc*************************************************************
 /**
  * Returns the appropriate header icon and text based on the current pathname.
  *
@@ -29,10 +35,14 @@ import { GraduationCap, BookOpenCheckIcon, UserCheck2Icon, CircleQuestionMark } 
  * - Fallback (no matching case):
  *    → Returns an empty fragment.
  *
+ *
  * @function checkIconAndHeaderText
  * @param {string} pathName - The current URL pathname (e.g. "/exams/123/questions").
  * @returns {JSX.Element} A JSX fragment containing the icon and corresponding header text.
  */
+
+// **************************************************************************************************************
+
 export function checkIconAndHeaderText(pathName: string): JSX.Element {
   const correctPath = pathName.split("/").filter(Boolean);
 
@@ -76,8 +86,8 @@ export function checkIconAndHeaderText(pathName: string): JSX.Element {
     case correctPath.length === 3:
       return (
         <>
-          <CircleQuestionMark size={45} />[
-          {correctPath[correctPath.length - 2]}] <span>Questions</span>
+          <CircleQuestionMark size={45} />[{correctPath[correctPath.length - 2]}
+          ] <span>Questions</span>
         </>
       );
 

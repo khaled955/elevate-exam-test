@@ -37,7 +37,9 @@ export default function CounterTimer({
       localStorage.setItem("timeLeft", String(timeLeft));
     }, 1000);
     // !!==> Clean Up
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval)
+    };
   }, [timeLeft, onTimeOut]);
 
   return (
