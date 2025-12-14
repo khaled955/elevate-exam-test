@@ -10,11 +10,17 @@ export async function deleteProfileAction(): Promise<DeleteProfileResponse> {
   const jwt = await getToken();
   const token = jwt?.accessToken;
 
+  // !!==> Guard Clause
+
+  if(!token){
+    throw new Error ("Please Login First")
+  }
+
   const rep = await fetch(`${process.env.BASE_URL}${DELETE_PROFILE.DELETE}`, {
     method: "DELETE",
     headers: {
       ...JSON_HEADER,
-      token: token!,
+      token,
     },
   });
 

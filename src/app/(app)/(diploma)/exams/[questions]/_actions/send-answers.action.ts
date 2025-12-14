@@ -13,12 +13,18 @@ export async function sendAnswersToServerAction(
   const jwt = await getToken();
   const token = jwt?.accessToken;
 
+  // !!==> Guard Clause
+
+  if(!token){
+    throw new Error("Please Login First")
+  }
+
   const resp = await fetch(
     `${process.env.BASE_URL}${QUESTIONS.SEND_TO_CHECK}`,
     {
       headers: {
         ...JSON_HEADER,
-        token: token!,
+        token,
       },
       method: "POST",
       body: JSON.stringify(examAnswers),

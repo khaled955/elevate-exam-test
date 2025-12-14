@@ -13,11 +13,17 @@ export async function updateProfileAction(
   const jwt = await getToken();
   const token = jwt?.accessToken;
 
+  // !!==> Guard Clause
+
+  if(!token){
+    throw new Error ("Please Login First")
+  }
+
   const resp = await fetch(`${process.env.BASE_URL}${UPDATE_PROFILE.UPDATE}`, {
     method: "PUT",
     headers: {
       ...JSON_HEADER,
-      token: token!,
+      token,
     },
     body: JSON.stringify(updateformValues),
   });
