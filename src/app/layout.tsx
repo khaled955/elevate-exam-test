@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
-import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 import "./globals.css";
 import Providers from "@/components/context/app";
@@ -11,7 +11,9 @@ import SideBar from "@/components/layout/app/side-bar";
 import Header from "@/components/layout/app/header";
 import { usePathname } from "next/navigation";
 import MyBreadCrumb from "@/components/layout/app/my-bread-crumb";
-import { useState } from "react";
+import {  useState } from "react";
+import { useOnlineStatus } from "@/hooks/use-online-status";
+import OfflineIndicator from "@/components/shared/offline-indicator";
 
 // ======================================================================================================
 // % Font Config
@@ -38,6 +40,11 @@ export default function RootLayout({
   // ======================================================================================================
   //* States
   const [showSideBar, setShowSideBar] = useState(false);
+  const isOnline = useOnlineStatus()
+
+ 
+
+
 
   // ======================================================================================================
 
@@ -66,11 +73,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen overflow-x-hidden">
-        <Providers>
+        {!isOnline?<OfflineIndicator/>:<Providers>
           {/* Toaster */}
           <Toaster />
+            
+         
 
-          {/* Display Header And Sidebar And Breadcrumb */}
+          {/*//^^==> App Layout */}
           {!isPublic ? (
             <div className="main-layout-parent flex">
               <div className={`${showSideBar ? "block" : "hidden"} sm:block`}>
@@ -81,16 +90,24 @@ export default function RootLayout({
               {/* Toggle Btn */}
               <div
                 className={`toggle-btn fixed ${
-                  showSideBar ? "left-44 top-16" : "left-0 top-10"
+                  showSideBar ? "left-44 top-16" : "left-3 top-10 shadow-md"
                 } z-50 sm:hidden`}
               >
                 {/* Show Btn */}
                 {!showSideBar && (
-                  <CircleChevronRight size={40} onClick={handleShowSideBar} />
+                  <Menu
+                    className="cursor-pointer text-blue-600"
+                    size={40}
+                    onClick={handleShowSideBar}
+                  />
                 )}
                 {/* Hide Btn */}
                 {showSideBar && (
-                  <CircleChevronLeft size={40} onClick={handleHideSideBar} />
+                  <X
+                    className="cursor-pointer text-blue-300"
+                    size={30}
+                    onClick={handleHideSideBar}
+                  />
                 )}
               </div>
 
@@ -122,7 +139,11 @@ export default function RootLayout({
             // *===> Auth Layout Display
             <div className="relative">{children}</div>
           )}
-        </Providers>
+
+
+
+          
+        </Providers>}
       </body>
     </html>
   );

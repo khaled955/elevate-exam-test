@@ -1,91 +1,15 @@
-"use client";
+import { Metadata } from "next";
+import HomeComponent from "./(app)/_components/home-component";
 
-import InfiniteScroll from "react-infinite-scroll-component";
-import { Subject } from "@/lib/types/diplomas";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { useDiplomas } from "./_hooks/use-diplomas";
-import Spinner from "@/components/shared/spinner";
-
+export const metadata: Metadata = {
+  title: "Exam App",
+  description: " Elevate Exam App",
+};
 // =======================================================================================================
-export default function AppHomePage() {
-  // ======================================================================================================
-  // ? Hook===>  Fetch Diplom
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useDiplomas();
-  // ======================================================================================================
-  //& Variables
-  const pages = data?.pages ?? [];
-
-  //^ ====> To Convert All Pages Into One Page
-  const diplomas: Subject[] = pages.flatMap((page) => page.subjects);
-  const router = useRouter();
-  // ======================================================================================================
-
-  /*//^ ================================
-                                   App => HomePage Jsx
-                               ================================ //*/
+export default function AppPage() {
   return (
     <>
-      <div className="min-h-screen relative">
-        <div className="mt-4">
-          {/* Infinite Scroll Component */}
-          <InfiniteScroll
-            dataLength={diplomas.length}
-            next={() => {
-              if (isFetchingNextPage) return;
-              if (!hasNextPage) return;
-              fetchNextPage();
-            }}
-            hasMore={!!hasNextPage}
-            loader={
-              <h4 className="text-center text-gray-600 font-geist">
-                Scroll to view more
-              </h4>
-            }
-            endMessage={
-              !isLoading && (
-                <p style={{ textAlign: "center" }}>
-                  <b>You have seen it all Diplomas</b>
-                </p>
-              )
-            }
-          >
-            {isLoading ? (
-              <Spinner />
-            ) : (
-              //!===> Ui That Display Inside Infinite Scroll
-              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                {diplomas.map((diploma) => (
-                  <li
-                    key={diploma._id}
-                    className="relative cursor-pointer"
-                    onClick={() => {
-                      return router.push(`/exams`);
-                    }}
-                  >
-                    <Image
-                      src={`${diploma.icon}`}
-                      alt={diploma.name}
-                      className="object-cover"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                      }}
-                      width={500}
-                      height={0}
-                    />
-                    {/* //^===> Diploma Title */}
-                    <span className="absolute bottom-3 left-3 right-3 bg-[#155DFC80] py-5 pl-4 pr-16 text-xl font-semibold text-white">
-                      {diploma.name}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </InfiniteScroll>
-        </div>
-      </div>
+      <HomeComponent />
     </>
   );
 }

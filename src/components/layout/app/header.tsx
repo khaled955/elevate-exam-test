@@ -21,7 +21,7 @@ export default function Header() {
                                 ================================ //*/
 
   return (
-    <div className="header flex gap-3">
+    <div className="header flex gap-3 ml-6 sm:ml-0">
       {!isHome && (
         <div className="left-action-btn border flex justify-center items-center">
           {/*//*=>> Prev Btn */}

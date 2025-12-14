@@ -1,3 +1,4 @@
+"use client"
 import Pagination from "@/components/layout/app/pagination";
 import Spinner from "@/components/shared/spinner";
 import { AnswerOption, Question } from "@/lib/types/questions";
@@ -90,3 +91,19 @@ export default function ResultsPopUp({
     </>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
